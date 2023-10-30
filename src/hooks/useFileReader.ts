@@ -8,7 +8,6 @@ const useFileReader = () => {
     file: File | string,
     onReadComplete?: (result: ArrayBuffer | undefined | null | string) => void
   ) => {
-    console.log('🚀 ~ file: useFileReader.ts:11 ~ useFileReader ~ file:', file);
     let reader: FileReader | null = new FileReader();
 
     reader.onload = () => {
