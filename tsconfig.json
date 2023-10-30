@@ -8,11 +8,16 @@
 
     /* Bundler mode */
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
+    // "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    // "noEmit": true,
     "jsx": "react-jsx",
+
+    /* For build */
+    "outDir": "build",
+    // Generate d.ts files
+    "declaration": true,
 
     /* Linting */
     "strict": true,

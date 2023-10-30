@@ -71,7 +71,7 @@ const GsplatViewer: FC<{ file?: File | undefined; isPremium?: boolean }> = ({
         <Canvas className="h-full w-full bg-black" gl={{ antialias: true }}>
           <Player />
           <OrbitControls enableDamping={false} />
-          <Splat file={splatData} isPremium={isPremium} />
+          <Splat file={splatData} />
         </Canvas>
       ) : (
         <img
@@ -87,37 +87,6 @@ const GsplatViewer: FC<{ file?: File | undefined; isPremium?: boolean }> = ({
       />
     </div>
   );
-};
-
-const App = ({}) => {
-  // const [currentFile, setCurrentFile] = useState<File | undefined>();
-  // const { loading, readFile } = useFileReader();
-  // useEffect(() => {
-  //   const asyncFetch = async () => {
-  //     const response = await fetch('/public/Paspaley_Cleaned v3.splat');
-  //     console.log('🚀 ~ file: App.tsx:61 ~ asyncFetch ~ response:', response);
-  //     // const blob = URL.createObjectURL(await response.text());
-  //     // console.log('🚀 ~ file: App.tsx:63 ~ asyncFetch ~ blob:', blob);
-  //     // const file = await readFile(blob);
-  //     // console.log('🚀 ~ file: App.tsx:62 ~ asyncFetch ~ file:', file);
-  //     setCurrentFile(await response.body);
-  //   };
-  //   // if (
-  //   //   req.status != 200 ||
-  //   //   req.body == null ||
-  //   //   req.headers == null ||
-  //   //   req.headers.get('content-length') == null
-  //   // ) {
-  //   //   throw new Error(req.status + ' Unable to load ' + req.url);
-  //   // }
-  //   // const reader = req.body.getReader();
-  //   asyncFetch();
-  // }, []);
-  // return (
-  //   <div className="bg-gray-200 h-100 p-0 relative flex h-screen">
-  //     <GsplatViewer file={currentFile} />
-  //   </div>
-  // );
 };
 
 export default GsplatViewer;

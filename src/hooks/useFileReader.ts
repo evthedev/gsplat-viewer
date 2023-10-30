@@ -5,17 +5,17 @@ const useFileReader = () => {
   const [loading, setLoading] = useState(false);
 
   const readFile = async (
-    file: File | string,
+    file: File | string | undefined,
     onReadComplete?: (result: ArrayBuffer | undefined | null | string) => void
   ) => {
     let reader: FileReader | null = new FileReader();
 
     reader.onload = () => {
-      const splitFileName = file.name.split('.');
+      const splitFileName = (file as File)?.name.split('.');
       const fileExtension = splitFileName?.[splitFileName.length - 1];
       const result =
         fileExtension === 'ply'
-          ? convertPlyToSplat(reader?.result)
+          ? convertPlyToSplat(reader?.result as ArrayBufferLike)
           : reader?.result;
 
       onReadComplete?.(result);
@@ -30,7 +30,7 @@ const useFileReader = () => {
       reader = null;
     };
 
-    file && reader.readAsArrayBuffer(file);
+    file && reader.readAsArrayBuffer(file as Blob);
   };
 
   return {

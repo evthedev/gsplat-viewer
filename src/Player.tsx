@@ -1,29 +1,30 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useKeyPress } from 'react-use';
 
 interface PlayerProps {
-  movementSpeed?: number
+  movementSpeed?: number;
 }
-const Player: FC<PlayerProps> = ({movementSpeed = 0.3}) => {
+const Player: FC<PlayerProps> = ({ movementSpeed = 0.3 }) => {
   const { camera } = useThree();
   const moveDirection = useRef(new THREE.Vector3());
-  const isShiftPressed = useKeyPress(
-    (event) =>
-      event.key === "Shift"
-  )[0];
-  const absoluteMovementSpeed = isShiftPressed ? 4 * movementSpeed : movementSpeed
+  const isShiftPressed = useKeyPress((event) => event.key === 'Shift')[0];
+  const absoluteMovementSpeed = isShiftPressed
+    ? 4 * movementSpeed
+    : movementSpeed;
 
   useFrame(() => {
     // Rotate move direction to align with camera rotation
-    const dir = moveDirection.current.clone().applyQuaternion(camera.quaternion);
+    const dir = moveDirection.current
+      .clone()
+      .applyQuaternion(camera.quaternion);
 
     // Update camera position
     camera.position.add(dir.multiplyScalar(absoluteMovementSpeed));
   });
 
-  const onKeyDown = (event) => {
+  const onKeyDown = (event: KeyboardEvent) => {
     switch (event.code) {
       case 'KeyW':
         moveDirection.current.z = -absoluteMovementSpeed;
@@ -48,7 +49,7 @@ const Player: FC<PlayerProps> = ({movementSpeed = 0.3}) => {
     }
   };
 
-  const onKeyUp = (event) => {
+  const onKeyUp = (event: KeyboardEvent) => {
     switch (event.code) {
       case 'KeyW':
       case 'KeyS':
@@ -67,7 +68,6 @@ const Player: FC<PlayerProps> = ({movementSpeed = 0.3}) => {
     }
   };
 
-
   useEffect(() => {
     // window.addEventListener('mousedown', onMouseDown);
     // window.addEventListener('mousemove', onMouseMove);
@@ -84,6 +84,6 @@ const Player: FC<PlayerProps> = ({movementSpeed = 0.3}) => {
     };
   }, []);
   return null;
-}
+};
 
 export default Player;

@@ -3,7 +3,19 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "main": "src/index.js",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/gsplat-viewer.umd.js",
+  "module": "./dist/gsplat-viewer.js",
+  "types": "./dist/gsplat-viewer.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/gsplat-viewer.js",
+      "require": "./dist/gsplat-viewer.umd.js"
+    },
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

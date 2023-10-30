@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import SplatSortWorker from './splat-sort-worker?worker';
 import { fragmentShaderSource, vertexShaderSource } from './splat-shaders';
 import { useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, Text, TrackballControls } from '@react-three/drei';
+import { Text } from '@react-three/drei';
 import { useControls, button, folder } from 'leva';
 
 const computeFocalLengths = (
@@ -20,25 +20,19 @@ const computeFocalLengths = (
   return new THREE.Vector2(fx, fy);
 };
 
-const Splat = ({
-  file,
-  isPremium = false,
-}: {
-  file?: Uint8Array;
-  isPremium: boolean;
-}) => {
+const Splat = ({ file }: { file?: Uint8Array }) => {
   const [
     {
-      resetPosition,
+      // resetPosition,
       maxSplats,
       rotationAxis,
       flipScene,
       xPos,
       yPos,
       zPos,
-      xRot,
-      yRot,
-      zRot,
+      // xRot,
+      // yRot,
+      // zRot,
     },
     set,
   ] = useControls(() => ({
@@ -87,56 +81,56 @@ const Splat = ({
 
   // Web worker doing the splat sorting
   const [worker] = useState(() => new SplatSortWorker());
-  const [mouseMoved, setMouseMoved] = useState(false);
+  // const [mouseMoved, setMouseMoved] = useState(false);
 
-  const handleMouseMove = () => {
-    setMouseMoved(true);
-  };
+  // const handleMouseMove = () => {
+  //   setMouseMoved(true);
+  // };
 
   // Listen to screen and viewport
   const {
     size: { width, height },
     camera,
     viewport: { dpr },
-    raycaster,
-    mouse,
-  } = useThree() as any;
+    // raycaster,
+    // mouse,
+  } = useThree();
 
-  // TODO make this unset the orbitcontrols position instead of forcing the 0,0,0
-  const orbitControlsRef = useRef();
+  // // TODO make this unset the orbitcontrols position instead of forcing the 0,0,0
+  // const orbitControlsRef = useRef();
 
-  const handleClick = (event) => {
-    // TODO temporarily using this to disable click controls. Not nice
-    // orbitControlsRef.current.enabled = false
-    if (!mouseMoved) return;
-    event.stopPropagation();
+  // const handleClick = (event) => {
+  //   // TODO temporarily using this to disable click controls. Not nice
+  //   // orbitControlsRef.current.enabled = false
+  //   if (!mouseMoved) return;
+  //   event.stopPropagation();
 
-    const mesh = ref.current;
+  //   const mesh = ref.current;
 
-    raycaster.setFromCamera(mouse, camera);
+  //   raycaster.setFromCamera(mouse, camera);
 
-    const intersects = raycaster.intersectObject(mesh, true);
+  //   const intersects = raycaster.intersectObject(mesh, true);
 
-    if (intersects.length) {
-      // console.log("🚀 ~ file: splat-object.tsx:108 ~ handleClick ~ intersects.length:", intersects.length)
-      const point = intersects[0].point;
+  //   if (intersects.length) {
+  //     // console.log("🚀 ~ file: splat-object.tsx:108 ~ handleClick ~ intersects.length:", intersects.length)
+  //     const point = intersects[0].point;
 
-      const savedRotation = camera.rotation.clone();
-      // console.log("🚀 ~ file: splat-object.tsx:124 ~ handleClick ~ savedRotation:", savedRotation)
-      const savedPosition = camera.position.clone();
-      // console.log("🚀 ~ file: splat-object.tsx:125 ~ handleClick ~ savedPosition:", savedPosition)
+  //     const savedRotation = camera.rotation.clone();
+  //     // console.log("🚀 ~ file: splat-object.tsx:124 ~ handleClick ~ savedRotation:", savedRotation)
+  //     const savedPosition = camera.position.clone();
+  //     // console.log("🚀 ~ file: splat-object.tsx:125 ~ handleClick ~ savedPosition:", savedPosition)
 
-      orbitControlsRef.current?.target.copy(point);
-      // orbitControlsRef.current?.update()
+  //     orbitControlsRef.current?.target.copy(point);
+  //     // orbitControlsRef.current?.update()
 
-      camera.rotation.copy(savedRotation);
-      camera.position.copy(savedPosition);
-      // orbitControlsRef.current.enabled = true
-      // camera.position.set(savedPosition.x, savedPosition.y, savedPosition.z);
+  //     camera.rotation.copy(savedRotation);
+  //     camera.position.copy(savedPosition);
+  //     // orbitControlsRef.current.enabled = true
+  //     // camera.position.set(savedPosition.x, savedPosition.y, savedPosition.z);
 
-      // Set camera lookAt point to original lookAt point
-    }
-  };
+  //     // Set camera lookAt point to original lookAt point
+  //   }
+  // };
 
   // Expose camera object to window for better debugging
   // window.camera = camera;
@@ -147,6 +141,7 @@ const Splat = ({
       value: new THREE.Vector2(width * dpr, height * dpr),
     },
     focal: {
+      // @ts-expect-error properties do exist
       value: computeFocalLengths(width, height, camera.fov, camera.aspect, dpr),
     },
   });
@@ -156,11 +151,14 @@ const Splat = ({
     uniforms.focal.value = computeFocalLengths(
       width,
       height,
+      // @ts-expect-error properties do exist
       camera.fov,
+      // @ts-expect-error properties do exist
       camera.aspect,
       dpr
     );
     uniforms.viewport.value = new THREE.Vector2(width * dpr, height * dpr);
+    // @ts-expect-error properties do exist
   }, [width, height, camera.fov, camera.aspect, dpr]);
 
   // Initialize attribute buffers
@@ -174,27 +172,32 @@ const Splat = ({
   });
 
   // Send current camera pose to splat sorting worker
-  useFrame((state, _delta, _xrFrame) => {
-    const mesh = ref.current;
-    if (mesh == null) {
-      return;
+  useFrame(
+    (
+      state
+      // _delta, _xrFrame
+    ) => {
+      const mesh = ref.current;
+      if (mesh == null) {
+        return;
+      }
+      const camera = state.camera;
+      // Set coordinates derived from useControls
+      const { x: xPos, y: yPos, z: zPos } = camera.position;
+      const { x: xRot, y: yRot, z: zRot } = camera.rotation;
+      set({ xPos });
+      set({ yPos });
+      set({ zPos });
+      set({ xRot: (xRot * 180) / Math.PI });
+      set({ yRot: (yRot * 180) / Math.PI });
+      set({ zRot: (zRot * 180) / Math.PI });
+      const viewProj = new THREE.Matrix4()
+        .multiply(camera.projectionMatrix)
+        .multiply(camera.matrixWorldInverse)
+        .multiply(mesh.matrixWorld);
+      worker.postMessage({ view: viewProj.elements, maxSplats });
     }
-    const camera = state.camera;
-    // Set coordinates derived from useControls
-    const { x: xPos, y: yPos, z: zPos } = camera.position;
-    const { x: xRot, y: yRot, z: zRot } = camera.rotation;
-    set({ xPos });
-    set({ yPos });
-    set({ zPos });
-    set({ xRot: (xRot * 180) / Math.PI });
-    set({ yRot: (yRot * 180) / Math.PI });
-    set({ zRot: (zRot * 180) / Math.PI });
-    const viewProj = new THREE.Matrix4()
-      .multiply(camera.projectionMatrix)
-      .multiply(camera.matrixWorldInverse)
-      .multiply(mesh.matrixWorld);
-    worker.postMessage({ view: viewProj.elements, maxSplats });
-  });
+  );
 
   // Receive sorted buffers from sorting worker
   useEffect(() => {
@@ -245,7 +248,7 @@ const Splat = ({
     //     //   parseInt(req.headers.get('content-length')!)
     //     // );
     //     // console.log("🚀 ~ file: splat-object.tsx:119 ~ loadModel ~ splatData:", splatData)
-    let vertexCount = 0;
+    const vertexCount = 0;
     let lastVertexCount = -1;
     let bytesRead = 0;
     bytesRead += file?.length || 0;
@@ -370,8 +373,8 @@ const Splat = ({
     <mesh
       ref={ref}
       renderOrder={10}
-      onPointerDown={handleClick}
-      onPointerMove={handleMouseMove}
+      // onPointerDown={handleClick}
+      // onPointerMove={handleMouseMove}
     >
       {/* <shaderMaterial
         attach="material"
