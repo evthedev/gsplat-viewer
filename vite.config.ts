@@ -13,10 +13,18 @@ export default defineConfig({
   assetsInclude: ['**/*.gltf', '**/*.splat'],
   plugins: [react()],
   build: {
-    lib: {
-      entry: path.resolve(__dirname, 'src/index.js'),
-      name: 'Gsplat Viewer',
-      formats: ['es', 'umd'],
+    // lib: {
+    //   entry: path.resolve(__dirname, 'main.'),
+    //   name: 'Gsplat Viewer',
+    //   // formats: ['es', 'umd'],
+    // },
+    rollupOptions: {
+      input: path.resolve(__dirname, 'src/main.tsx'),
+      output: {
+        entryFileNames: `[name].js`,
+        chunkFileNames: `[name].js`,
+        assetFileNames: `[name].[ext]`,
+      },
     },
   },
 });

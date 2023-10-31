@@ -9,6 +9,7 @@ import { Leva } from 'leva';
 import useFileReader from './hooks/useFileReader';
 import { ASSET_BASE_URL } from './utils/constants';
 const GsplatViewer = ({ file, fileUrl, isPremium = true }) => {
+    console.log('🚀 ~ file: GsplatViewer.tsx:19 ~ fileUrl:', fileUrl);
     const [splatData, setSplatData] = useState();
     const [currentFile, setCurrentFile] = useState();
     const { loading, readFile } = useFileReader();

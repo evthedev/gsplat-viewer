@@ -6,6 +6,7 @@ import './index.css';
 const container = document.getElementById('gsplat-viewer-1');
 // const fileUrl = 'https://media.reshot.ai/models/nike_next/model.splat';
 const fileUrl = container?.getAttribute('data-splat-file');
+console.log('🚀 ~ file: main.tsx:9 ~ fileUrl:', fileUrl);
 // Use this for the platform app
 // ReactDOM.createRoot(document.getElementById('root')!).render(
 //   <React.StrictMode>
@@ -14,7 +15,9 @@ const fileUrl = container?.getAttribute('data-splat-file');
 // )
 // Use this for the viewer to support multiple viewers on the same page
 const mountApp = (rootId) => {
+    console.log('🚀 ~ file: main.tsx:19 ~ mountApp ~ rootId:', rootId);
     const rootElement = document.getElementById(rootId);
+    console.log('🚀 ~ file: main.tsx:21 ~ mountApp ~ rootElement:', rootElement);
     if (rootElement) {
         ReactDOM.createRoot(rootElement).render(_jsx(React.StrictMode, { children: _jsx(GsplatViewer, { fileUrl: fileUrl }) }));
     }
