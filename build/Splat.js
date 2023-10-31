@@ -6,6 +6,8 @@ import { fragmentShaderSource, vertexShaderSource } from './splat-shaders';
 import { useFrame, useThree } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
 import { useControls, button, folder } from 'leva';
+// const ASSET_BASE_URL = process.env.VITE_ASSET_BASE_URL;
+// const workerUrl = `${ASSET_BASE_URL}/splat-sort-worker?worker`;
 const computeFocalLengths = (width, height, fov, aspect, dpr) => {
     const fovRad = THREE.MathUtils.degToRad(fov);
     const fovXRad = 2 * Math.atan(Math.tan(fovRad / 2) * aspect);

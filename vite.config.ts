@@ -18,8 +18,18 @@ export default defineConfig({
     //   name: 'Gsplat Viewer',
     //   // formats: ['es', 'umd'],
     // },
+    assetsDir: './',
     rollupOptions: {
       input: path.resolve(__dirname, 'src/main.tsx'),
+      output: {
+        entryFileNames: `[name].js`,
+        chunkFileNames: `[name].js`,
+        assetFileNames: `[name].[ext]`,
+      },
+    },
+  },
+  worker: {
+    rollupOptions: {
       output: {
         entryFileNames: `[name].js`,
         chunkFileNames: `[name].js`,
