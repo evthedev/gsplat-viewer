@@ -4,8 +4,15 @@ import { fragmentShaderSource, vertexShaderSource } from './splat-shaders';
 import { useFrame, useThree } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
 import { useControls, button, folder } from 'leva';
+import { ASSET_BASE_URL } from './utils/constants';
 
-const splatSortWorker = new URL('../splat-sort-worker.js', import.meta.url);
+// const splatSortWorker = new URL('../splat-sort-worker.js', "https://main--majestic-pothos-b9b3cd.netlify.app");
+const splatSortWorker = new URL(
+  '../splat-sort-worker.js',
+  process.env.NODE_ENV === 'development' ? import.meta.url : ASSET_BASE_URL
+);
+console.log('🚀 ~ file: Splat.tsx:9 ~ splatSortWorker:', splatSortWorker);
+console.log('🚀 ~ file: Splat.tsx:9 ~ import.meta.url:', import.meta.url);
 
 const computeFocalLengths = (
   width: number,
