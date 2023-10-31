@@ -12,14 +12,5 @@ export default defineConfig({
       name: 'Gsplat Viewer',
       formats: ['es', 'umd'],
     },
-    rollupOptions: {
-      // externalize deps that shouldn't be bundled
-      external: ['react'],
-      output: {
-        globals: {
-          vue: 'react',
-        },
-      },
-    },
   },
 });
