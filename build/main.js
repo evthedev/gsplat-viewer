@@ -3,6 +3,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import GsplatViewer from './GsplatViewer';
 import './index.css';
+const container = document.getElementById('gsplat-viewer');
+// const fileUrl = 'https://media.reshot.ai/models/nike_next/model.splat';
+const fileUrl = container?.getAttribute('data-splat-file');
 // Use this for the platform app
 // ReactDOM.createRoot(document.getElementById('root')!).render(
 //   <React.StrictMode>
@@ -13,7 +16,7 @@ import './index.css';
 const mountApp = (rootId) => {
     const rootElement = document.getElementById(rootId);
     if (rootElement) {
-        ReactDOM.createRoot(rootElement).render(_jsx(React.StrictMode, { children: _jsx(GsplatViewer, {}) }));
+        ReactDOM.createRoot(rootElement).render(_jsx(React.StrictMode, { children: _jsx(GsplatViewer, { fileUrl: fileUrl }) }));
     }
 };
 // Function to check the page for root elements and mount the app on them

@@ -5,6 +5,7 @@ export interface SceneFile {
 }
 declare const GsplatViewer: FC<{
     file?: File | undefined;
+    fileUrl?: RequestInfo | URL | undefined;
     isPremium?: boolean;
 }>;
 export default GsplatViewer;

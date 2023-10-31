@@ -6,16 +6,18 @@ import { OrbitControls } from '@react-three/drei';
 import Player from './Player';
 import { Leva } from 'leva';
 import useFileReader from './hooks/useFileReader';
+import { ASSET_BASE_URL } from './utils/constants';
 
 export interface SceneFile {
   file: File;
   splatData: Uint8Array;
 }
 
-const GsplatViewer: FC<{ file?: File | undefined; isPremium?: boolean }> = ({
-  file,
-  isPremium = true,
-}) => {
+const GsplatViewer: FC<{
+  file?: File | undefined;
+  fileUrl?: RequestInfo | URL | undefined;
+  isPremium?: boolean;
+}> = ({ file, fileUrl, isPremium = true }) => {
   const [splatData, setSplatData] = useState<Uint8Array | undefined>();
   const [currentFile, setCurrentFile] = useState<File | undefined>();
   const { loading, readFile } = useFileReader();
@@ -47,6 +49,32 @@ const GsplatViewer: FC<{ file?: File | undefined; isPremium?: boolean }> = ({
     setCurrentFile(file);
   }, [file]);
 
+  // If fileUrl is provided, this is from html embed and we execute fetch
+  useEffect(() => {
+    const asyncFetchFile = async () => {
+      if (fileUrl) {
+        const response = await fetch(fileUrl, {
+          mode: 'cors',
+          credentials: 'omit',
+        });
+        if (
+          response.status != 200 ||
+          response.body == null ||
+          response.headers == null ||
+          response.headers.get('content-length') == null
+        ) {
+          throw new Error(response.status + ' Unable to load ' + response.url);
+        }
+
+        const blob = await response.blob();
+        const file = new File([blob], 'filename.ext', { type: blob.type });
+
+        setCurrentFile(file);
+      }
+    };
+    asyncFetchFile();
+  }, [fileUrl]);
+
   return (
     <div
       className="bg-gray-200 h-100 p-0 relative flex h-screen"
@@ -75,7 +103,7 @@ const GsplatViewer: FC<{ file?: File | undefined; isPremium?: boolean }> = ({
         </Canvas>
       ) : (
         <img
-          src="/death-star.jpg"
+          src={`${ASSET_BASE_URL}death-star.jpg`}
           style={{ height: '100%', width: '100%', objectFit: 'cover' }}
         />
       )}

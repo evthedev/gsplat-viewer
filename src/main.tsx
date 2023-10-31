@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom/client';
 import GsplatViewer from './GsplatViewer';
 import './index.css';
 
+const container = document.getElementById('gsplat-viewer');
+// const fileUrl = 'https://media.reshot.ai/models/nike_next/model.splat';
+const fileUrl = container?.getAttribute('data-splat-file') as RequestInfo;
+
 // Use this for the platform app
 // ReactDOM.createRoot(document.getElementById('root')!).render(
 //   <React.StrictMode>
@@ -16,7 +20,7 @@ const mountApp = (rootId: string) => {
   if (rootElement) {
     ReactDOM.createRoot(rootElement).render(
       <React.StrictMode>
-        <GsplatViewer />
+        <GsplatViewer fileUrl={fileUrl} />
       </React.StrictMode>
     );
   }
