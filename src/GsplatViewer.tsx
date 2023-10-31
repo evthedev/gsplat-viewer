@@ -18,6 +18,7 @@ const GsplatViewer: FC<{
   fileUrl?: RequestInfo | URL | undefined;
   isPremium?: boolean;
 }> = ({ file, fileUrl, isPremium = true }) => {
+  console.log('🚀 ~ file: GsplatViewer.tsx:19 ~ fileUrl:', fileUrl);
   const [splatData, setSplatData] = useState<Uint8Array | undefined>();
   const [currentFile, setCurrentFile] = useState<File | undefined>();
   const { loading, readFile } = useFileReader();
