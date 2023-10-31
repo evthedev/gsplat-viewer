@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import GsplatViewer from './GsplatViewer';
 import './index.css';
-const container = document.getElementById('gsplat-viewer');
+const container = document.getElementById('gsplat-viewer-1');
 // const fileUrl = 'https://media.reshot.ai/models/nike_next/model.splat';
 const fileUrl = container?.getAttribute('data-splat-file');
 // Use this for the platform app
@@ -22,11 +22,11 @@ const mountApp = (rootId) => {
 // Function to check the page for root elements and mount the app on them
 const checkAndMountApp = () => {
     let count = 1;
-    let rootElement = document.getElementById('root' + count);
+    let rootElement = document.getElementById('gsplat-viewer-' + count);
     while (rootElement) {
-        mountApp('root' + count);
+        mountApp('gsplat-viewer-' + count);
         count++;
-        rootElement = document.getElementById('root' + count);
+        rootElement = document.getElementById('gsplat-viewer-' + count);
     }
 };
 // Call the function on page load
