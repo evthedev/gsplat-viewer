@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-import SplatSortWorker from './splat-sort-worker?worker';
 import { fragmentShaderSource, vertexShaderSource } from './splat-shaders';
 import { useFrame, useThree } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
 import { useControls, button, folder } from 'leva';
+
+const splatSortWorker = new URL('../splat-sort-worker.js', import.meta.url);
 
 const computeFocalLengths = (
   width: number,
@@ -80,7 +81,7 @@ const Splat = ({ file }: { file?: Uint8Array }) => {
   const ref = useRef<THREE.Mesh>(null);
 
   // Web worker doing the splat sorting
-  const [worker] = useState(() => new SplatSortWorker());
+  const [worker] = useState(() => new Worker(splatSortWorker));
   // const [mouseMoved, setMouseMoved] = useState(false);
 
   // const handleMouseMove = () => {
