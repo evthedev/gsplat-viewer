@@ -1,13 +1,23 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useCallback, useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-import SplatSortWorker from './splat-sort-worker?worker';
 import { fragmentShaderSource, vertexShaderSource } from './splat-shaders';
 import { useFrame, useThree } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
 import { useControls, button, folder } from 'leva';
-// const ASSET_BASE_URL = process.env.VITE_ASSET_BASE_URL;
-// const workerUrl = `${ASSET_BASE_URL}/splat-sort-worker?worker`;
+import { ASSET_BASE_URL } from './utils/constants';
+console.log('🚀 ~ file: Splat.tsx:12 ~ ASSET_BASE_URL:', ASSET_BASE_URL);
+console.log('🚀 ~ file: Splat.tsx:9 ~ import.meta.url:', import.meta.url);
+// const splatSortWorker = new URL('../splat-sort-worker.js', "https://majestic-pothos-b9b3cd.netlify.app");
+const host = process.env.NODE_ENV === 'development' ? import.meta.url : ASSET_BASE_URL;
+console.log('🚀 ~ file: Splat.tsx:11 ~ host:', host);
+const splatSortWorker = new URL('../splat-sort-worker.js', host);
+console.log('🚀 ~ file: Splat.tsx:14 ~ splatSortWorker:', splatSortWorker);
+// const splatSortWorker = new URL(
+//   '../splat-sort-worker.js',
+//   'https://majestic-pothos-b9b3cd.netlify.app'
+// );
+console.log('🚀 ~ file: Splat.tsx:9 ~ splatSortWorker:', splatSortWorker);
 const computeFocalLengths = (width, height, fov, aspect, dpr) => {
     const fovRad = THREE.MathUtils.degToRad(fov);
     const fovXRad = 2 * Math.atan(Math.tan(fovRad / 2) * aspect);
@@ -63,7 +73,7 @@ const Splat = ({ file }) => {
     // Allow direct access to the mesh
     const ref = useRef(null);
     // Web worker doing the splat sorting
-    const [worker] = useState(() => new SplatSortWorker());
+    const [worker] = useState(() => new Worker(splatSortWorker));
     // const [mouseMoved, setMouseMoved] = useState(false);
     // const handleMouseMove = () => {
     //   setMouseMoved(true);

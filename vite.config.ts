@@ -40,7 +40,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/splat-sort-worker.js': {
-        target: 'https://main--majestic-pothos-b9b3cd.netlify.app',
+        target: 'https://majestic-pothos-b9b3cd.netlify.app',
         changeOrigin: true,
         rewrite: (path) =>
           path.replace(/^\/splat-sort-worker.js/, '/splat-sort-worker.js'),

@@ -9,7 +9,7 @@ import { ASSET_BASE_URL } from './utils/constants';
 console.log('🚀 ~ file: Splat.tsx:12 ~ ASSET_BASE_URL:', ASSET_BASE_URL);
 console.log('🚀 ~ file: Splat.tsx:9 ~ import.meta.url:', import.meta.url);
 
-// const splatSortWorker = new URL('../splat-sort-worker.js', "https://main--majestic-pothos-b9b3cd.netlify.app");
+// const splatSortWorker = new URL('../splat-sort-worker.js', "https://majestic-pothos-b9b3cd.netlify.app");
 const host =
   process.env.NODE_ENV === 'development' ? import.meta.url : ASSET_BASE_URL;
 console.log('🚀 ~ file: Splat.tsx:11 ~ host:', host);
@@ -17,7 +17,7 @@ const splatSortWorker = new URL('../splat-sort-worker.js', host);
 console.log('🚀 ~ file: Splat.tsx:14 ~ splatSortWorker:', splatSortWorker);
 // const splatSortWorker = new URL(
 //   '../splat-sort-worker.js',
-//   'https://main--majestic-pothos-b9b3cd.netlify.app'
+//   'https://majestic-pothos-b9b3cd.netlify.app'
 // );
 console.log('🚀 ~ file: Splat.tsx:9 ~ splatSortWorker:', splatSortWorker);
 
