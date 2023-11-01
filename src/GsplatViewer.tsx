@@ -13,12 +13,18 @@ export interface SceneFile {
   splatData: Uint8Array;
 }
 
+// Client's 'API key' must match one of these
+const apiKeys = {
+  bv: '7f8g9h0j-1k2l-3m4n-5o6p-7q8r9s0t1u2v',
+  default: 'default',
+};
+
 const GsplatViewer: FC<{
   file?: File | undefined;
   fileUrl?: RequestInfo | URL | undefined;
   isPremium?: boolean;
-}> = ({ file, fileUrl, isPremium = true }) => {
-  console.log('🚀 ~ file: GsplatViewer.tsx:19 ~ fileUrl:', fileUrl);
+  clientApiKey?: string | null;
+}> = ({ file, fileUrl, isPremium = true, clientApiKey }) => {
   const [splatData, setSplatData] = useState<Uint8Array | undefined>();
   const [currentFile, setCurrentFile] = useState<File | undefined>();
   const { loading, readFile } = useFileReader();
@@ -34,6 +40,9 @@ const GsplatViewer: FC<{
     },
     noClick: true,
   });
+
+  const isAuthenticated =
+    clientApiKey && Object.values(apiKeys).includes(clientApiKey);
 
   // Read file and set splatData if currentFile is updated
   useEffect(() => {
@@ -76,7 +85,7 @@ const GsplatViewer: FC<{
     asyncFetchFile();
   }, [fileUrl]);
 
-  return (
+  return isAuthenticated ? (
     <div
       className="bg-gray-200 h-100 p-0 relative flex h-screen"
       {...getRootProps()}
@@ -84,8 +93,9 @@ const GsplatViewer: FC<{
       <Leva
         titleBar={{
           drag: true,
-          position: { x: -430, y: 0 },
+          // position: { x: -430, y: 0 },
         }}
+        collapsed={true}
         hidden={!isPremium}
       />
       {loading && (
@@ -114,6 +124,10 @@ const GsplatViewer: FC<{
         className="hidden"
         {...getInputProps()}
       />
+    </div>
+  ) : (
+    <div className="h-100 p-0 relative flex h-screen items-center justify-center">
+      <p className="text-md text-gray-600">Api key invalid.</p>
     </div>
   );
 };

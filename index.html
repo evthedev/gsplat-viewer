@@ -7,15 +7,39 @@
     <title>Vite + React + TS</title>
   </head>
   <body>
-    <!-- <div
-      id="gsplat-viewer"
+    <!-- For embedding -->
+    <div
+      id="gsplat-viewer-1"
+      data-api-key="7f8g9h0j-1k2l-3m4n-5o6p-7q8r9s0t1u2v"
       data-splat-file="https://media.reshot.ai/models/nike_next/model.splat"
     ></div>
     <script
       type="module"
-      src="https://main--majestic-pothos-b9b3cd.netlify.app/gsplat-viewer.js"
-    ></script> -->
-    <div id="gsplat-viewer-1"></div>
+      src="https://majestic-pothos-b9b3cd.netlify.app/main.js"
+    ></script>
+    <script>
+      const cssLink = document.createElement('link');
+      cssLink.rel = 'stylesheet';
+      cssLink.href = 'https://majestic-pothos-b9b3cd.netlify.app/main.css';
+      document.body.appendChild(cssLink);
+    </script>
+
+    <!-- For testing embedding locally -->
+    <!-- <div
+      id="gsplat-viewer-1"
+      data-api-key="7f8g9h0j-1k2l-3m4n-5o6p-7q8r9s0t1u2v"
+      data-splat-file="https://media.reshot.ai/models/nike_next/model.splat"
+    ></div>
+    <script type="module" src="./dist/main.js"></script>
+    <script>
+      const cssLink = document.createElement('link');
+      cssLink.rel = 'stylesheet';
+      cssLink.href = './dist/main.css';
+      document.body.appendChild(cssLink);
+    </script> -->
+
+    <!-- For dev -->
+    <div id="gsplat-viewer-1" data-api-key="default"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

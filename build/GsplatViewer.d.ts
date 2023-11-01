@@ -7,5 +7,6 @@ declare const GsplatViewer: FC<{
     file?: File | undefined;
     fileUrl?: RequestInfo | URL | undefined;
     isPremium?: boolean;
+    clientApiKey?: string | null;
 }>;
 export default GsplatViewer;
