@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom/client';
 import GsplatViewer from './GsplatViewer';
 import './index.css';
 
-const container = document.getElementById('gsplat-viewer-1');
+const container = document.getElementById('3d-viewer-1');
 // const fileUrl = 'https://media.reshot.ai/models/nike_next/model.splat';
-const fileUrl = container?.getAttribute('data-splat-file') as RequestInfo;
+const fileUrl = container?.getAttribute('data-source') as RequestInfo;
 const clientApiKey = container?.getAttribute('data-api-key');
 
 // Use this for the platform app
@@ -30,11 +30,11 @@ const mountApp = (rootId: string) => {
 // Function to check the page for root elements and mount the app on them
 const checkAndMountApp = () => {
   let count = 1;
-  let rootElement = document.getElementById('gsplat-viewer-' + count);
+  let rootElement = document.getElementById('3d-viewer-' + count);
   while (rootElement) {
-    mountApp('gsplat-viewer-' + count);
+    mountApp('3d-viewer-' + count);
     count++;
-    rootElement = document.getElementById('gsplat-viewer-' + count);
+    rootElement = document.getElementById('3d-viewer-' + count);
   }
 };
 
